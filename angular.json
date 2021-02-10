@@ -1,0 +1,147 @@
+{
+  "version": 1,
+  "cli": {
+    "defaultCollection": "@nrwl/angular"
+  },
+  "schematics": {
+    "@nrwl/angular": {
+      "application": {
+        "linter": "eslint"
+      },
+      "library": {
+        "linter": "eslint"
+      },
+      "storybook-configuration": {
+        "linter": "eslint"
+      }
+    },
+    "@nrwl/angular:application": {
+      "style": "scss",
+      "linter": "eslint",
+      "unitTestRunner": "jest",
+      "e2eTestRunner": "cypress"
+    },
+    "@nrwl/angular:library": {
+      "style": "scss",
+      "linter": "eslint",
+      "unitTestRunner": "jest"
+    },
+    "@nrwl/angular:component": {
+      "style": "scss"
+    }
+  },
+  "defaultProject": "artify",
+  "projects": {
+    "artify": {
+      "projectType": "application",
+      "root": "apps/artify",
+      "sourceRoot": "apps/artify/src",
+      "prefix": "artify",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/apps/artify",
+            "index": "apps/artify/src/index.html",
+            "main": "apps/artify/src/main.ts",
+            "polyfills": "apps/artify/src/polyfills.ts",
+            "tsConfig": "apps/artify/tsconfig.app.json",
+            "aot": true,
+            "assets": ["apps/artify/src/favicon.ico", "apps/artify/src/assets"],
+            "styles": ["apps/artify/src/styles.scss"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/artify/src/environments/environment.ts",
+                  "with": "apps/artify/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "artify:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "artify:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "artify:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "apps/artify/src/**/*.ts",
+              "apps/artify/src/**/*.html"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/artify"],
+          "options": {
+            "jestConfig": "apps/artify/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "artify-e2e": {
+      "root": "apps/artify-e2e",
+      "sourceRoot": "apps/artify-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/artify-e2e/cypress.json",
+            "tsConfig": "apps/artify-e2e/tsconfig.e2e.json",
+            "devServerTarget": "artify:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "artify:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/artify-e2e/**/*.{js,ts}"]
+          }
+        }
+      }
+    }
+  }
+}
