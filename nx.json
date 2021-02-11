@@ -11,12 +11,18 @@
   },
   "tasksRunnerOptions": {
     "default": {
-      "runner": "@nrwl/workspace/tasks-runners/default",
-      "options": { "cacheableOperations": ["build", "lint", "test", "e2e"] }
+      "runner": "@nrwl/nx-cloud",
+      "options": {
+        "accessToken": "ZTFmYzYyMGMtMjBmZC00ZGYzLThmMWQtYWE4NjY4ZTllZTVjfHJlYWQtd3JpdGU=",
+        "cacheableOperations": ["build", "test", "lint", "e2e"],
+        "canTrackAnalytics": false,
+        "showUsageWarnings": true
+      }
     }
   },
   "projects": {
     "artify": { "tags": [] },
-    "artify-e2e": { "tags": [], "implicitDependencies": ["artify"] }
+    "artify-e2e": { "tags": [], "implicitDependencies": ["artify"] },
+    "ui": { "tags": [] }
   }
 }
