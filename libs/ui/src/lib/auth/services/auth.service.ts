@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 
 @Injectable({
@@ -18,5 +18,12 @@ export class AuthService {
         }
       })
     );
+  }
+
+  register(model: any) {
+    // let headers = new HttpHeaders({
+
+    // })
+    return this.http.post(this.authUrl + 'register', model).pipe();
   }
 }
