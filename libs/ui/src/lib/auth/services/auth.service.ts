@@ -33,6 +33,14 @@ export class AuthService {
     return !this.helper.isTokenExpired(token);
   }
 
+  logOut() {
+    const token = localStorage.getItem('token');
+    const header = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.post(this.authUrl + 'logout', {
+      headers: header,
+    });
+  }
+
   getProfile() {
     const token = localStorage.getItem('token');
     const header = new HttpHeaders().set('Authorization', `Bearer ${token}`);
