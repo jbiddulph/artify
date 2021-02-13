@@ -9,6 +9,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 export class AuthService {
   authUrl = 'http://choosapi.test/api/auth/';
   helper = new JwtHelperService();
+  decodedToken: any;
 
   constructor(private http: HttpClient) {}
 
@@ -24,14 +25,19 @@ export class AuthService {
   }
 
   register(model: any) {
-    // let headers = new HttpHeaders({
-
-    // })
     return this.http.post(this.authUrl + 'register', model).pipe();
   }
 
   loggedIn() {
     const token = localStorage.getItem('token');
     return !this.helper.isTokenExpired(token);
+  }
+
+  getProfile() {
+    const token = localStorage.getItem('token');
+    const header = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.get(this.authUrl + 'profile', {
+      headers: header,
+    });
   }
 }
